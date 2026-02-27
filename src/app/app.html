@@ -1,0 +1,44 @@
+<header>
+  <h1>{{ title() }}</h1>
+</header>
+
+<main>
+  <div class="materials-grid">
+    @for (material of materials; track material.name; let i = $index) {
+      <div class="material-card" [style.animation-delay]="i * 0.1 + 's'" (click)="selectedMaterial.set(material)">
+        <div class="image-container">
+          @for (url of material.imageUrls; track url; let j = $index) {
+            <img [src]="url" [alt]="material.name" class="material-image" [style.animation-delay]="j * 4 + 's'" />
+          }
+        </div>
+        <div class="material-info">
+          <div class="material-header">
+            <h2 class="material-name">{{ material.name }}</h2>
+            <p class="material-price">{{ material.price }}</p>
+          </div>
+          <p class="material-description">{{ material.description }}</p>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (selectedMaterial()) {
+    <div class="modal-overlay" (click)="selectedMaterial.set(null)">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-image-container">
+          @for (url of selectedMaterial()!.imageUrls; track url; let j = $index) {
+            <img [src]="url" [alt]="selectedMaterial()!.name" class="modal-image" [style.animation-delay]="j * 4 + 's'" />
+          }
+        </div>
+        <div class="modal-info">
+          <h2 class="modal-name">{{ selectedMaterial()!.name }}</h2>
+          <p class="modal-description">{{ selectedMaterial()!.description }}</p>
+          <p class="modal-price">{{ selectedMaterial()!.price }}</p>
+          <button class="close-btn" (click)="selectedMaterial.set(null)">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  }
+</main>
+
+<router-outlet />
