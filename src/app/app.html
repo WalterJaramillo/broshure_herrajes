@@ -1,44 +1,136 @@
-<header>
-  <h1>{{ title() }}</h1>
+<header class="header">
+  <div class="header-content">
+    <div class="logo">
+      <span class="logo-icon">🪵</span>
+      <h1 class="logo-text">{{ title() }}</h1>
+    </div>
+    <p class="header-subtitle">Herrajes de precisión para carpintería premium</p>
+    <nav class="nav">
+      <a href="#productos" class="nav-link">Catálogo</a>
+      <a href="#contacto" class="nav-link">Contacto</a>
+    </nav>
+  </div>
 </header>
 
-<main>
-  <div class="materials-grid">
-    @for (material of materials; track material.name; let i = $index) {
-      <div class="material-card" [style.animation-delay]="i * 0.1 + 's'" (click)="selectedMaterial.set(material)">
-        <div class="image-container">
-          @for (url of material.imageUrls; track url; let j = $index) {
-            <img [src]="url" [alt]="material.name" class="material-image" [style.animation-delay]="j * 4 + 's'" />
-          }
-        </div>
-        <div class="material-info">
-          <div class="material-header">
-            <h2 class="material-name">{{ material.name }}</h2>
-            <p class="material-price">{{ material.price }}</p>
-          </div>
-          <p class="material-description">{{ material.description }}</p>
+<main class="main">
+  <section class="filters-section">
+    <div class="filters-stack">
+      <div class="search-group">
+        <label class="filters-heading" for="search-input">Buscar catálogo</label>
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input 
+            id="search-input"
+            type="text" 
+            class="search-input" 
+            placeholder="Buscar productos..." 
+            [value]="searchQuery()"
+            (input)="onSearch($event)"
+          />
         </div>
       </div>
-    }
-  </div>
+      <div class="category-group">
+        <p class="filters-heading">Filtrar por categoría</p>
+        <div class="category-filters">
+          @for (category of categories(); track category) {
+            <button 
+              class="filter-btn" 
+              [class.active]="selectedCategory() === category"
+              (click)="setCategory(category)"
+            >
+              {{ category }}
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
 
-  @if (selectedMaterial()) {
-    <div class="modal-overlay" (click)="selectedMaterial.set(null)">
-      <div class="modal-content" (click)="$event.stopPropagation()">
+  <section class="products-section" id="productos">
+    @if (filteredMaterials().length === 0) {
+      <div class="empty-state">
+        <span class="empty-icon">🔎</span>
+        <h3>No se encontraron productos</h3>
+        <p>Intenta con otros términos de búsqueda o categoría</p>
+      </div>
+    } @else {
+      <div class="materials-grid">
+        @for (material of filteredMaterials(); track material.name; let i = $index) {
+          <div class="material-card" [style.animation-delay]="i * 0.05 + 's'" (click)="selectedMaterial.set(material)">
+            <div class="image-container">
+              @for (url of material.imageUrls; track url) {
+                <img [src]="url" [alt]="material.name" class="material-image" loading="lazy" />
+              }
+            </div>
+            <div class="material-info">
+              <div class="material-header">
+                <h2 class="material-name">{{ material.name }}</h2>
+                <p class="material-price">{{ material.price }}</p>
+              </div>
+              <p class="material-description">{{ material.description }}</p>
+              <button class="cta-btn" (click)="contactMaterial(material); $event.stopPropagation()">
+                Contactar
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </section>
+</main>
+
+<footer class="footer" id="contacto">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>Herrajes Nelson Carrillo</h3>
+      <p>Herrajes de precisión para proyectos de carpintería premium</p>
+    </div>
+    <div class="footer-section">
+      <h4>Contacto</h4>
+      <p>📧 contacto&#64;carpinteriapastoril.com</p>
+      <p>📞 +57 315 3292436</p>
+      <p>📍 Bogotá, Colombia</p>
+    </div>
+    <div class="footer-section">
+      <h4>Categorías</h4>
+      <div class="footer-links">
+        <button class="footer-link" (click)="setCategory('Muebles')">Muebles</button>
+        <button class="footer-link" (click)="setCategory('Puertas')">Puertas</button>
+        <button class="footer-link" (click)="setCategory('Ventanas')">Ventanas</button>
+        <button class="footer-link" (click)="setCategory('Decoración')">Decoración</button>
+      </div>
+    </div>
+  </div>
+    <div class="footer-bottom">
+    <p>&copy; 2026 Herrajes Nelson Carrillo. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+@if (selectedMaterial()) {
+  <div class="modal-overlay" (click)="selectedMaterial.set(null)">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-body">
         <div class="modal-image-container">
-          @for (url of selectedMaterial()!.imageUrls; track url; let j = $index) {
-            <img [src]="url" [alt]="selectedMaterial()!.name" class="modal-image" [style.animation-delay]="j * 4 + 's'" />
+          @for (url of selectedMaterial()!.imageUrls; track url) {
+            <img [src]="url" [alt]="selectedMaterial()!.name" class="modal-image" />
           }
         </div>
         <div class="modal-info">
           <h2 class="modal-name">{{ selectedMaterial()!.name }}</h2>
           <p class="modal-description">{{ selectedMaterial()!.description }}</p>
           <p class="modal-price">{{ selectedMaterial()!.price }}</p>
-          <button class="close-btn" (click)="selectedMaterial.set(null)">Cerrar</button>
         </div>
       </div>
+      <div class="modal-footer">
+        <button class="modal-btn primary" (click)="contactMaterial(selectedMaterial()!)">
+          Contactar
+        </button>
+        <button class="modal-btn secondary" (click)="selectedMaterial.set(null)">
+          Cerrar
+        </button>
+      </div>
     </div>
-  }
-</main>
+  </div>
+}
 
 <router-outlet />

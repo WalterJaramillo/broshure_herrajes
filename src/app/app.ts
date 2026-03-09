@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed, HostListener } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 interface Material {
@@ -6,6 +6,7 @@ interface Material {
   description: string;
   price: string;
   imageUrls: string[];
+  category: string;
 }
 
 @Component({
@@ -15,148 +16,69 @@ interface Material {
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('Carpintería Pastoril');
-
+  protected readonly title = signal('Herrajes Nelson Carrillo');
   protected readonly selectedMaterial = signal<Material | null>(null);
+  protected readonly searchQuery = signal('');
+  protected readonly selectedCategory = signal<string>('Todos');
+  protected readonly categories = signal<string[]>(['Todos', 'Muebles', 'Puertas', 'Ventanas', 'Decoración']);
 
   protected readonly materials: Material[] = [
-    {
-      name: 'Material 1',
-      description: 'Descripción del material 1.',
-      price: '$10.00',
-      imageUrls: ['assets/images/1.jpeg']
-    },
-    {
-      name: 'Material 2',
-      description: 'Descripción del material 2.',
-      price: '$10.00',
-      imageUrls: ['assets/images/2.jpeg']
-    },
-    {
-      name: 'Material 3',
-      description: 'Descripción del material 3.',
-      price: '$10.00',
-      imageUrls: ['assets/images/3.jpeg']
-    },
-    {
-      name: 'Material 4',
-      description: 'Descripción del material 4.',
-      price: '$10.00',
-      imageUrls: ['assets/images/4.jpeg']
-    },
-    {
-      name: 'Material 5',
-      description: 'Descripción del material 5.',
-      price: '$10.00',
-      imageUrls: ['assets/images/5.jpeg']
-    },
-    {
-      name: 'Material 6',
-      description: 'Descripción del material 6.',
-      price: '$10.00',
-      imageUrls: ['assets/images/6.jpeg']
-    },
-    {
-      name: 'Material 7',
-      description: 'Descripción del material 7.',
-      price: '$10.00',
-      imageUrls: ['assets/images/7.jpeg']
-    },
-    {
-      name: 'Material 8',
-      description: 'Descripción del material 8.',
-      price: '$10.00',
-      imageUrls: ['assets/images/8.jpeg']
-    },
-    {
-      name: 'Material 9',
-      description: 'Descripción del material 9.',
-      price: '$10.00',
-      imageUrls: ['assets/images/9.jpeg']
-    },
-    {
-      name: 'Material 10',
-      description: 'Descripción del material 10.',
-      price: '$10.00',
-      imageUrls: ['assets/images/10.jpeg']
-    },
-    {
-      name: 'Material 11',
-      description: 'Descripción del material 11.',
-      price: '$10.00',
-      imageUrls: ['assets/images/11.jpeg']
-    },
-    {
-      name: 'Material 12',
-      description: 'Descripción del material 12.',
-      price: '$10.00',
-      imageUrls: ['assets/images/12.jpeg']
-    },
-    {
-      name: 'Material 13',
-      description: 'Descripción del material 13.',
-      price: '$10.00',
-      imageUrls: ['assets/images/13.jpeg']
-    },
-    {
-      name: 'Material 14',
-      description: 'Descripción del material 14.',
-      price: '$10.00',
-      imageUrls: ['assets/images/14.jpeg']
-    },
-    {
-      name: 'Material 15',
-      description: 'Descripción del material 15.',
-      price: '$10.00',
-      imageUrls: ['assets/images/15.jpeg']
-    },
-    {
-      name: 'Material 16',
-      description: 'Descripción del material 16.',
-      price: '$10.00',
-      imageUrls: ['assets/images/16.jpeg']
-    },
-    {
-      name: 'Material 17',
-      description: 'Descripción del material 17.',
-      price: '$10.00',
-      imageUrls: ['assets/images/17.jpeg']
-    },
-    {
-      name: 'Material 18',
-      description: 'Descripción del material 18.',
-      price: '$10.00',
-      imageUrls: ['assets/images/18.jpeg']
-    },
-    {
-      name: 'Material 19',
-      description: 'Descripción del material 19.',
-      price: '$10.00',
-      imageUrls: ['assets/images/19.jpeg']
-    },
-    {
-      name: 'Material 20',
-      description: 'Descripción del material 20.',
-      price: '$10.00',
-      imageUrls: ['assets/images/20.jpeg']
-    },
-    {
-      name: 'Material 21',
-      description: 'Descripción del material 21.',
-      price: '$10.00',
-      imageUrls: ['assets/images/21.jpeg']
-    },
-    {
-      name: 'Material 22',
-      description: 'Descripción del material 22.',
-      price: '$10.00',
-      imageUrls: ['assets/images/22.jpeg']
-    },
-    {
-      name: 'Material 23',
-      description: 'Descripción del material 23.',
-      price: '$10.00',
-      imageUrls: ['assets/images/23.jpeg']
-    }
+    { name: 'Mesa de Roble', description: 'Mesa robusta de roble macizo, perfecta para comedores.', price: '$450.00', imageUrls: ['assets/images/1.jpeg'], category: 'Muebles' },
+    { name: 'Silla Artesanal', description: 'Silla de madera tallada a mano con diseño clásico.', price: '$120.00', imageUrls: ['assets/images/2.jpeg'], category: 'Muebles' },
+    { name: 'Estante de Pared', description: 'Estante flotante de pino para sala o cocina.', price: '$85.00', imageUrls: ['assets/images/3.jpeg'], category: 'Muebles' },
+    { name: 'Armario Rural', description: 'Armario de almacenamiento con puertas de madera.', price: '$380.00', imageUrls: ['assets/images/4.jpeg'], category: 'Muebles' },
+    { name: 'Banco de Trabajo', description: 'Banco resistente para taller o taller casero.', price: '$95.00', imageUrls: ['assets/images/5.jpeg'], category: 'Muebles' },
+    { name: 'Mesa de Noche', description: 'Mesa de noche con cajón integrado.', price: '$150.00', imageUrls: ['assets/images/6.jpeg'], category: 'Muebles' },
+    { name: 'Puerta Principal', description: 'Puerta de entrada de madera maciza con bisagras.', price: '$320.00', imageUrls: ['assets/images/7.jpeg'], category: 'Puertas' },
+    { name: 'Puerta de Dormitorio', description: 'Puerta interior con diseño tradicional.', price: '$180.00', imageUrls: ['assets/images/8.jpeg'], category: 'Puertas' },
+    { name: 'Puerta de Vidrio', description: 'Puerta con panel de vidrio templado.', price: '$280.00', imageUrls: ['assets/images/9.jpeg'], category: 'Puertas' },
+    { name: 'Puerta Corredera', description: 'Sistema de puerta corredera de madera.', price: '$420.00', imageUrls: ['assets/images/10.jpeg'], category: 'Puertas' },
+    { name: 'Portón de Entrada', description: 'Portón grande para jardín o patio.', price: '$550.00', imageUrls: ['assets/images/11.jpeg'], category: 'Puertas' },
+    { name: 'Puerta de Baño', description: 'Puerta interior resistente a humedad.', price: '$165.00', imageUrls: ['assets/images/12.jpeg'], category: 'Puertas' },
+    { name: 'Ventana Clásica', description: 'Ventana de madera con vidrios sencillos.', price: '$145.00', imageUrls: ['assets/images/13.jpeg'], category: 'Ventanas' },
+    { name: 'Ventana Persiana', description: 'Ventana con sistema de persiana de madera.', price: '$210.00', imageUrls: ['assets/images/14.jpeg'], category: 'Ventanas' },
+    { name: 'Ventana Modular', description: 'Ventana de dos hojas oscilobatientes.', price: '$195.00', imageUrls: ['assets/images/15.jpeg'], category: 'Ventanas' },
+    { name: 'Ventana de Techo', description: 'Ventana para tragaluz o claraboya.', price: '$340.00', imageUrls: ['assets/images/16.jpeg'], category: 'Ventanas' },
+    { name: 'Ventana Corrediza', description: 'Ventana de aluminum con riel de madera.', price: '$225.00', imageUrls: ['assets/images/17.jpeg'], category: 'Ventanas' },
+    { name: 'Ventana Ornamental', description: 'Ventana con diseño decorativo superior.', price: '$180.00', imageUrls: ['assets/images/18.jpeg'], category: 'Ventanas' },
+    { name: 'Marco Decorativo', description: 'Marco de madera tallada para pared.', price: '$45.00', imageUrls: ['assets/images/19.jpeg'], category: 'Decoración' },
+    { name: 'Reloj de Pared', description: 'Reloj artesanal de madera con números.', price: '$78.00', imageUrls: ['assets/images/20.jpeg'], category: 'Decoración' },
+    { name: 'Letras de Madera', description: 'Letras decorativas personalizadas.', price: '$35.00', imageUrls: ['assets/images/21.jpeg'], category: 'Decoración' },
+    { name: 'Cajas Artesanales', description: 'Set de cajas de almacenamiento pequeñas.', price: '$55.00', imageUrls: ['assets/images/22.jpeg'], category: 'Decoración' },
+    { name: 'Tabla de Cocina', description: 'Tabla de cortar de madera de olivo.', price: '$42.00', imageUrls: ['assets/images/23.jpeg'], category: 'Decoración' }
   ];
+
+  protected readonly filteredMaterials = computed(() => {
+    const query = this.searchQuery().toLowerCase().trim();
+    const category = this.selectedCategory();
+
+    return this.materials.filter(material => {
+      const matchesSearch = !query || 
+        material.name.toLowerCase().includes(query) || 
+        material.description.toLowerCase().includes(query);
+      const matchesCategory = category === 'Todos' || material.category === category;
+      return matchesSearch && matchesCategory;
+    });
+  });
+
+  @HostListener('document:keydown.escape')
+  protected onEscapeKey() {
+    this.selectedMaterial.set(null);
+  }
+
+  protected setCategory(category: string) {
+    this.selectedCategory.set(category);
+  }
+
+  protected onSearch(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.searchQuery.set(target.value);
+  }
+
+  protected contactMaterial(material: Material) {
+    const message = encodeURIComponent(
+      `Hola, vi ${material.name} en el catálogo y me interesa saber más detalles acerca del precio.`
+    );
+    window.open(`https://wa.me/573153292436?text=${message}`, '_blank');
+  }
 }
