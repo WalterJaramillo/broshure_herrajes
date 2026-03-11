@@ -40,7 +40,7 @@ export class App {
     { name: 'Cazuela para puertas corredizas de clóset', description: '', price: '$ 1.040', imageUrls: ['assets/images/15.jpeg'], category: 'Puertas' },
     { name: 'Riel de 2 metros', description: '', price: '$ 32.200', imageUrls: ['assets/images/17.jpeg'], category: 'Puertas' },
     { name: 'L de 3/4 / L de 1/4', description: '', price: 'L de 3/4: $ 190 · L de 1/4: $ 500', imageUrls: ['assets/images/18.jpeg'], category: 'Puertas' },
-    { name: 'Bisagras cierre lento 180 grados', description: '', price: '$55.00', imageUrls: ['assets/images/22.jpeg'], category: 'Puertas' },
+    { name: 'Bisagras cierre lento 180 grados', description: '', price: '$ 11.700', imageUrls: ['assets/images/22.jpeg'], category: 'Puertas' },
     { name: 'Chapa pomo metal', description: '', price: '$ 9.500', imageUrls: ['assets/images/24.jpeg'], category: 'Puertas' },
     { name: 'Madecanto en 4.4 mm / Madecanto en 19 mm / Madecanto flexible', description: '', price: '4.4 mm: $ 1.100 · 19 mm: $ 650', imageUrls: ['assets/images/25.jpeg'], category: 'Puertas' },
     { name: 'Visagra 135 grado', description: '', price: '$ 6.100', imageUrls: ['assets/images/23.jpeg'], category: 'Puertas' }
