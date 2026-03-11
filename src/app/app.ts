@@ -44,8 +44,8 @@ export class App {
     { name: 'Chapa pomo metal', description: '', price: '$ 9.500', imageUrls: ['assets/images/24.jpeg'], category: 'Puertas' },
     { name: 'Madecanto en 4.4 mm / Madecanto en 19 mm / Madecanto flexible', description: '', price: '4.4 mm: $ 1.100 · 19 mm: $ 650', imageUrls: ['assets/images/25.jpeg'], category: 'Puertas' },
     { name: 'Visagra 135 grado', description: '', price: '$ 6.100', imageUrls: ['assets/images/23.jpeg'], category: 'Puertas' },
-    { name: 'Juegos para riel corredizo puertas', description: '', price: '$ 15.000', imageUrls: ['assets/images/16.jpeg'], category: 'Puertas' },
-    { name: 'Soporte entrepaño trasparente', description: '', price: '$ 81', imageUrls: ['assets/images/27.jpeg'], category: 'Muebles' },
+    { name: 'Juegos para riel corredizo puertas', description: '', price: '$ 15.000', imageUrls: ['assets/images/16.jpeg'], category: 'Puertas', imageSize: 'compact' },
+    { name: 'Soporte entrepaño trasparente', description: '', price: '$ 81', imageUrls: ['assets/images/27.jpeg'], category: 'Muebles', imageSize: 'compact' },
     { name: 'Chapa manija negra habitación y baño', description: '', price: '$ 21.900', imageUrls: ['assets/images/28.jpeg'], category: 'Puertas' }
   ];
 
