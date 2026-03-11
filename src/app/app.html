@@ -57,7 +57,7 @@
       <div class="materials-grid">
         @for (material of filteredMaterials(); track material.name; let i = $index) {
           <div class="material-card" [style.animation-delay]="i * 0.05 + 's'" (click)="selectedMaterial.set(material)">
-            <div class="image-container">
+            <div class="image-container" [class.compact]="material.imageSize === 'compact'">
               @for (url of material.imageUrls; track url) {
                 <img [src]="url" [alt]="material.name" class="material-image" loading="lazy" />
               }

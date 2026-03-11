@@ -7,6 +7,7 @@ interface Material {
   price: string;
   imageUrls: string[];
   category: string;
+  imageSize?: 'regular' | 'compact';
 }
 
 @Component({
@@ -35,7 +36,7 @@ export class App {
     { name: 'Cubertero de 53*47 / Cubertero de 33*46 / Cubertero de 23*47', description: '', price: '53*47: $ 38.000 · 33*46: $ 29.000 · 23*47: $ 33.500', imageUrls: ['assets/images/11.jpeg'], category: 'Muebles' },
     { name: 'Platero de 60 cm / Platero de 70 cm / Platero de 89 cm', description: '', price: 'Platero 60 cm: $ 33.125 · Platero 70 cm: $ 36.000 · Platero 89 cm: $ 48.000', imageUrls: ['assets/images/12.jpeg'], category: 'Muebles' },
     { name: 'Resorte para puertas', description: '', price: '$1.995', imageUrls: ['assets/images/14.jpeg'], category: 'Puertas' },
-    { name: 'Bisagras Omega para puertas', description: '', price: '$ 1.600', imageUrls: ['assets/images/13.jpeg'], category: 'Puertas' },
+    { name: 'Bisagras Omega para puertas', description: '', price: '$ 1.600', imageUrls: ['assets/images/13.jpeg'], category: 'Puertas', imageSize: 'compact' },
     { name: 'Cazuela para puertas corredizas de clóset', description: '', price: '$ 1.040', imageUrls: ['assets/images/15.jpeg'], category: 'Puertas' },
     { name: 'Riel de 2 metros', description: '', price: '$ 32.200', imageUrls: ['assets/images/17.jpeg'], category: 'Puertas' },
     { name: 'L de 3/4 / L de 1/4', description: '', price: 'L de 3/4: $ 190 · L de 1/4: $ 500', imageUrls: ['assets/images/18.jpeg'], category: 'Puertas' },

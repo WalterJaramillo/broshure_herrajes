@@ -331,6 +331,10 @@ body::before {
   background: linear-gradient(135deg, #E8DCC8 0%, #D4C4B0 100%);
 }
 
+.image-container.compact {
+  height: 140px;
+}
+
 .category-badge {
   position: absolute;
   top: 1rem;
@@ -361,6 +365,11 @@ body::before {
 
 .material-card:hover .material-image {
   transform: scale(1.08);
+}
+
+.image-container.compact .material-image {
+  object-fit: contain;
+  padding: 0.85rem;
 }
 
 .material-info {
