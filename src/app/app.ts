@@ -25,7 +25,7 @@ export class App {
 
   protected readonly materials: Material[] = [
     { name: 'Correderas full extensión tráfico semipesado', description: '', price: 'De 45 cm $ 7.625 · De 35 cm $ 6.240 · Full 55 cm $ 11.700', imageUrls: ['assets/images/1.jpeg'], category: 'Muebles' },
-    { name: 'Bisagras semiparche y parche', description: '', price: '$ 2.535', imageUrls: ['assets/images/3.jpeg'], category: 'Puertas' },
+    { name: 'Bisagras semiparche y parche', description: '', price: '$ 279', imageUrls: ['assets/images/3.jpeg'], category: 'Puertas' },
     { name: 'Soporte para tubo entrepaño', description: '', price: '$ 2.535', imageUrls: ['assets/images/4.jpeg'], category: 'Muebles' },
     { name: 'Brazo hidráulico cierre lento', description: '', price: '$ 4.125', imageUrls: ['assets/images/5.jpeg'], category: 'Muebles' },
     { name: 'Manijas de 12.8 de largo', description: '', price: '$ 1.625', imageUrls: ['assets/images/6.jpeg'], category: 'Puertas' },
